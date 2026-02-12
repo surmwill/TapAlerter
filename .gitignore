@@ -5,6 +5,7 @@ firebase-debug.log*
 .runtimeconfig.json
 .env
 *-debug.log
+config.json
 
 # --- Unity ---
 Build/
