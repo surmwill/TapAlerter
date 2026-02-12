@@ -31,11 +31,13 @@ exports.setUserDirtyScheduled = onSchedule("* * * * *", async (event) => {
     await userDocRef.update({ Dirty: true });
 });
 
+/*
 // http://127.0.0.1:5001/tapalerter/us-central1/setUserDirtyManual
 exports.setUserDirtyManual = onRequest(async (req, res) => {
     await userDocRef.update({ Dirty: true });
     res.status(200).send();
 });
+*/
 
 exports.userTrigger = onDocumentUpdated(`Users/${config.USER_DOC_GUID}`, async (event) => {
     const user = event.data.after.data();

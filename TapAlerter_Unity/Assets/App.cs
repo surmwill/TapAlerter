@@ -1,4 +1,4 @@
-#define USE_EMULATOR
+// #define USE_EMULATOR
 
 using System;
 using System.IO;
@@ -38,8 +38,8 @@ public class App : MonoBehaviour
     {
         _userDocName = JsonUtility.FromJson<Config>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, ConfigFileName))).USER_DOC_GUID;
         
-        #if USE_EMULATOR
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+        #if USE_EMULATOR
         db.Settings.Host = "localhost:8080";
         db.Settings.SslEnabled = false;
         #endif

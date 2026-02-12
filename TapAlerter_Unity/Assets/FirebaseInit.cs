@@ -1,4 +1,5 @@
-﻿using Firebase.Extensions;
+﻿using Firebase.Auth;
+using Firebase.Extensions;
 using UnityEngine;
 
 public class FirebaseInit : MonoBehaviour
@@ -16,7 +17,17 @@ public class FirebaseInit : MonoBehaviour
             }
             else
             {
-                _enableOnInit.gameObject.SetActive(true);
+                FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync().ContinueWithOnMainThread(t =>
+                {
+                    if (!t.IsCompletedSuccessfully)
+                    {
+                        Debug.Log($"Could not sign in: {t.Exception}");
+                    }
+                    else
+                    {
+                        _enableOnInit.gameObject.SetActive(true);
+                    }
+                });
             }
         });
     }
