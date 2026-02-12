@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "922867891228",
+    "project_id": "tapalerter",
+    "storage_bucket": "tapalerter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922867891228:android:81a92fcd514029c968b3d9",
+        "android_client_info": {
+          "package_name": "com.swill.tapAlerter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDneEjmNg1RaPo_8KUniXzEycm_7Q4hSIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

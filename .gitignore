@@ -1,0 +1,14 @@
+# --- Firebase ---
+node_modules/
+.firebase/
+firebase-debug.log*
+.runtimeconfig.json
+.env
+*-debug.log
+
+# --- Unity ---
+Build/
+
+.idea
+
+.utmp
