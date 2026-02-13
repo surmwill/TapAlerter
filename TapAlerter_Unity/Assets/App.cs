@@ -28,7 +28,7 @@ public class App : MonoBehaviour
     [SerializeField]
     private Button _refreshButton = null;
     
-    private const string ConfigFileName = "config.json";
+    private const string ConfigFileName = "config";
 
     private ListenerRegistration _listener;
     
@@ -36,7 +36,7 @@ public class App : MonoBehaviour
     
     private void Start()
     {
-        _userDocName = JsonUtility.FromJson<Config>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, ConfigFileName))).USER_DOC_GUID;
+        _userDocName = JsonUtility.FromJson<Config>(Resources.Load<TextAsset>(ConfigFileName).text).USER_DOC_GUID;
         
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
         #if USE_EMULATOR
