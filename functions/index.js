@@ -74,13 +74,19 @@ exports.userTrigger = onDocumentUpdated(`Users/${config.USER_DOC_GUID}`, async (
     {
         return;
     }
-
+    
     const message = {
         notification: {
             title: "Freezing Alert!",
-            body: `Tomorrow's low is ${tomorrowsLow}°C. Turn on the taps!`,
+            body: `⚠️⚠️⚠️ Tomorrow's low is ${tomorrowsLow}°C. Turn on the taps!`,
         },
-        token: user.Token
+        token: user.Token,
+        android: {
+            notification: {
+                icon: 'icon_0',
+                image: 'icon_1',
+            }
+        },
     };
 
     try {

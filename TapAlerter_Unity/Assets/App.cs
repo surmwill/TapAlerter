@@ -27,6 +27,14 @@ public class App : MonoBehaviour
 
     [SerializeField]
     private Button _refreshButton = null;
+
+    [SerializeField]
+    private Button _increaseButton = null;
+    
+    [SerializeField]
+    private Button _decreaseButton = null;
+
+    private DocumentReference UserDoc => FirebaseFirestore.DefaultInstance.Collection("Users").Document(_userDocName);
     
     private const string ConfigFileName = "config";
 
@@ -45,19 +53,37 @@ public class App : MonoBehaviour
         #endif
         
         _refreshButton.onClick.AddListener(Refresh);
+        _increaseButton.onClick.AddListener(IncrementWarningTemperature);
+        _decreaseButton.onClick.AddListener(DecrementWarningTemperature);
         
         #if UNITY_ANDROID && !UNITY_EDITOR
         FirebaseMessaging.MessageReceived += OnMessageReceived;
         FirebaseMessaging.TokenReceived += OnTokenReceived;
         #endif
         
-        _listener = db.Collection("Users").Document(_userDocName).Listen(snapshot => UpdateUI(snapshot.ConvertTo<UserData>()));
+        _listener = UserDoc.Listen(snapshot => UpdateUI(snapshot.ConvertTo<UserData>()));
+    }
+
+    private void IncrementWarningTemperature()
+    {
+        IncrementWarningTemperature(1);
+    }
+
+    private void DecrementWarningTemperature()
+    {
+        IncrementWarningTemperature(-1);
+    }
+
+    private void IncrementWarningTemperature(int increment)
+    {
+        UserDoc.UpdateAsync("WarningTemperature", FieldValue.Increment(increment));
+        Refresh();
     }
     
     private void OnTokenReceived(object sender, TokenReceivedEventArgs token) 
     {
         Debug.Log($"Token Received: {token.Token}");
-        FirebaseFirestore.DefaultInstance.Collection("Users").Document(_userDocName).UpdateAsync("Token", token.Token);
+        UserDoc.UpdateAsync("Token", token.Token);
         Refresh();
     }
 
@@ -70,6 +96,8 @@ public class App : MonoBehaviour
     private void OnDestroy()
     {
         _refreshButton.onClick.RemoveListener(Refresh);
+        _increaseButton.onClick.RemoveListener(IncrementWarningTemperature);
+        _decreaseButton.onClick.RemoveListener(DecrementWarningTemperature);
         
         #if UNITY_ANDROID && !UNITY_EDITOR
         FirebaseMessaging.MessageReceived -= OnMessageReceived;
@@ -81,7 +109,7 @@ public class App : MonoBehaviour
 
     private void Refresh()
     {
-        FirebaseFirestore.DefaultInstance.Collection("Users").Document(_userDocName).UpdateAsync("Dirty", true);
+        UserDoc.UpdateAsync("Dirty", true);
     }
 
     private void UpdateUI(UserData userData)
