@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const {setGlobalOptions} = require("firebase-functions");
 const {onRequest} = require("firebase-functions/https");
 const { onDocumentUpdated } = require("firebase-functions/v2/firestore");
@@ -26,7 +28,10 @@ const db = getFirestore();
 
 const userDocRef = db.collection("Users").doc(config.USER_DOC_GUID);
 
-exports.setUserDirtyScheduled = onSchedule("* * * * *", async (event) => {
+exports.setUserDirtyScheduled = onSchedule({
+    schedule: "0 20 * * *",
+    timeZone: "America/New_York", // Set this to your local timezone
+}, async (event) => {
     console.log('ran');
     await userDocRef.update({ Dirty: true });
 });
